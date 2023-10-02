@@ -1,0 +1,60 @@
+#containerImageSpecialty {
+    height: 15em;
+}
+
+#containerImageFamily {
+    height: 19.3em;
+}
+
+#modal-content-subfamily {
+    --bs-modal-width: 650px;
+    min-width: var(--bs-modal-width);
+    margin: -15%;
+}
+
+#containerImageSubfamily {
+    height: 23.3em;
+}
+
+#imageFile {
+    padding: 5%;
+    height: 100%;
+    width: 100%;
+}
+
+table thead tr th#selectAll, th#actions{
+    width: 5%;
+}
+
+table tbody tr td#code {
+    width: 8%;
+    text-wrap: nowrap;
+}
+
+table tbody tr td#name {
+    width: 21%;
+    text-wrap: wrap;
+}
+
+table tbody tr td#specialty {
+    width: 21%;
+    text-wrap: wrap;
+}
+
+table tr td div.btn-group a{
+    padding: 2%;
+    background: none;
+    --bs-btn-border-color: none;
+}
+
+table tr td div.btn-group a.edit{
+    color: #027767;
+}
+
+table tr td div.btn-group a.delete{
+    color: #F44336;
+}
+
+#sampleTable_wrapper {
+    width: 98.7%;
+}

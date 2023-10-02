@@ -1,0 +1,211 @@
+<main class="app-content">
+    <app-breadcrumb 
+        [title]="breadcrumb.title" 
+        [desription]="breadcrumb.description" 
+        [urls]="breadcrumb.urls"
+    >
+    </app-breadcrumb>
+    <app-message 
+        [kindAlert]="alert.kindAlert"  
+        [title]="alert.title" 
+        [message]="alert.message"
+        (cleanAlert)="alert.onCleanAlert()"
+    >
+    </app-message>
+    <div class="row" id="subfamilyContainer">
+        <div class="col-md-12">
+            <div class="tile">
+            <div class="tile-body">
+                <div class="table-responsive" >
+                    <div id="sampleTable_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                        <app-filter 
+                            [title]="breadcrumb.title"
+                            (updateFilter)="onFilterChange($event)" 
+                            (updatePageSize)="onSelected($event)"
+                            (updateModal)="onOpenModal('', $event)"
+                            >
+                        </app-filter>
+                        <div class="row dt-row">
+                            <div class="col-sm-12">
+                                <table class="table table-hover table-bordered" id="sampleTable">
+                                    <thead>
+                                    <tr>
+                                        <th id="selectAll">
+                                            <input class="form-check-input" type="checkbox" 
+                                            #chBox (click)="onSelectAll(chBox.checked)" 
+                                            [(ngModel)]="selectAll"/>
+                                        </th>
+                                        <th *ngFor="let column of columns">{{ column }}</th>
+                                        <th id="actions">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let subfamily of subfamilyList">
+                                        <td><input #chBox1 class="form-check-input" type="checkbox" 
+                                            [(ngModel)]="subfamily.checked"></td>
+                                        <td id="code">{{ subfamily?.code }}</td>
+                                        <td>{{ subfamily?.name }}</td>
+                                        <td>{{ subfamily?.family?.name }}</td>
+                                        <td>{{ subfamily?.family?.specialty?.name }}</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a class="btn btn-primary edit" (click)="onOpenModal(subfamily, 'edit')"><i class="bi bi-pencil-square fs-5"></i></a>
+                                                <a class="btn btn-primary delete" (click)="onOpenModal(subfamily, 'delete')"><i class="bi bi-trash fs-5"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>                            
+                        </div>
+                        <app-pagination (updatePage)="onSetPage($event)"></app-pagination> 
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Modal -->
+    <div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="staticBackdropLabel" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" id="modal-content-subfamily">
+            <form [formGroup]="form" (ngSubmit)="save()">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">{{ titleDialog }}</h5>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>            
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="code">Code</label>
+                            <input 
+                                type="text" 
+                                formControlName="code" 
+                                class="form-control" 
+                                id="code" 
+                                placeholder="Code"
+                            />
+                            <div *ngIf="feedBackCode != ''" class="form-control-feedback">{{ feedBackCode }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input 
+                                type="text"
+                                formControlName="name"
+                                class="form-control" 
+                                id="name" 
+                                placeholder="Name"
+                            />
+                            <div *ngIf="feedBackName != ''" class="form-control-feedback">{{ feedBackName }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea 
+                                formControlName="description"
+                                id="description"
+                                class="form-control"
+                                placeholder="Description"
+                                maxlength="255"
+                                rows="4"
+                                style="resize: none;">
+                            </textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Specialty</label>
+                            <select 
+                                formControlName="specialty" 
+                                id="specialty" 
+                                (change)="onChangeSpecialty()"
+                                class="form-control">
+                                <option *ngFor="let specialty of specialtyList" [ngValue]="specialty">{{ specialty.name }}</option>
+                            </select>
+                            <div *ngIf="feedBackSpecialty != ''" class="form-control-feedback">{{ feedBackSpecialty }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Family</label>
+                            <select 
+                                formControlName="family" 
+                                id="family"
+                                class="form-control">
+                                <option *ngFor="let family of familyList" [ngValue]="family">{{ family.name }}</option>
+                            </select>
+                            <div *ngIf="feedBackFamily != ''" class="form-control-feedback">{{ feedBackFamily }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="imageFile"></label>
+                            <input 
+                                type="file"
+                                id="loadImage"
+                                accept="*.png *.jpg *.jpeg"
+                                class="form-control"
+                                style="display: none;"
+                                (change)="updateImage($event)"
+                            />
+                        </div>
+                        <div class="form-group" id="containerImageSubfamily">
+                            <img
+                                [src]="srcImage"
+                                id="imageFile"
+                                class="img-fluid rounded form-control"
+                                (click)="loadImage()"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button 
+                    [disabled]="form.invalid" 
+                    type="submit" 
+                    class="btn btn-primary" 
+                    *ngIf="modelMode">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    Register
+                </button>
+                <button 
+                    [disabled]="form.invalid" 
+                    type="button" 
+                    class="btn btn-primary" 
+                    *ngIf="!modelMode"
+                    (click)="updateById(subfamily.id)">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    Save changes
+                </button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                id="edit-form">Close</button>
+            </div>            
+            </form>
+            </div>
+        </div>
+    </div>
+
+    <!--Delete Modal-->
+    <div class="modal fade" id="deleteModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Delete Subfamily</h5>
+            <button class="btn-close" type="button" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"></span>
+            </button>
+            </div>
+            <div class="modal-body">
+            <p id="message"></p>
+            </div>
+            <div class="modal-footer">
+            <button class="btn btn-primary" type="button"
+            (click)="kindDelete == 1 ? deleteById(subfamily.id) : deleteAll()">Yes</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                id="delete-form">No</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</main>

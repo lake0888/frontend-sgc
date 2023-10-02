@@ -1,0 +1,7 @@
+#pagination {
+    margin: 0 0% 1% 0%;
+}
+
+#pagination ul.pagination li a{
+    border-radius: 0;
+}

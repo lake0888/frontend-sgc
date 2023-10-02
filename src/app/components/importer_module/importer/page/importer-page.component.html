@@ -1,0 +1,86 @@
+<main class="app-content">
+    <app-breadcrumb 
+      [title]="breadcrumb.title" 
+      [desription]="breadcrumb.description" 
+      [urls]="breadcrumb.urls">
+    </app-breadcrumb>
+    <app-message 
+      [kindAlert]="alert.kindAlert" 
+      [title]="alert.title" 
+      [message]="alert.message" 
+      (cleanAlert)="alert.onCleanAlert()">
+    </app-message>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="tile">    
+          <form [formGroup]="form" (ngSubmit)="save()">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="row">
+                  <div class="form-group">
+                    <label for="id" style="display: none;"></label>
+                    <input
+                      type="hidden"
+                      class="form-control"
+                      formControlName="id"
+                    />
+                  </div>
+                  <div class="mb-3 col-md-6 form-group">
+                    <label class="form-label">Name</label>
+                    <input 
+                      class="form-control" 
+                      type="text" 
+                      placeholder="Enter name" 
+                      id="name" 
+                      formControlName="name"
+                    />
+                    <div class="form-control-feedback" *ngIf="feedBackName != ''">{{ feedBackName }}</div>
+                  </div>
+                  <div class="mb-3 col-md-6 form-group">
+                    <label class="form-label">Nit</label>
+                    <input 
+                      class="form-control" 
+                      type="text" 
+                      placeholder="Enter nit" 
+                      id="nit" 
+                      formControlName="nit"
+                    />
+                    <div class="form-control-feedback" *ngIf="feedBackNit != ''">{{ feedBackNit}}</div>
+                  </div>
+                </div>
+                <div class="mb-3 form-group">
+                  <label class="form-label">Description</label>
+                  <textarea
+                    class="form-control" 
+                    rows="3" 
+                    placeholder="Enter description" 
+                    id="description" 
+                    formControlName="description"
+                    >
+                  </textarea>
+                </div>
+                <app-address formGroupName="address"></app-address>
+              </div>
+              <div class="col-lg-4 offset-lg-1">
+                <app-contact-details 
+                  formGroupName="contactDetails" 
+                  (imageFile)="updateImageFile($event)"
+                  ></app-contact-details>
+              </div>
+            </div>
+            <div class="tile-footer">
+              <button type="submit" class="btn btn-primary" *ngIf="modelMode">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                Register</button>
+              <button type="button" class="btn btn-primary" *ngIf="!modelMode"
+              (click)="updateById()">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                Save changes</button>
+                &nbsp;&nbsp;&nbsp;
+                <a class="btn btn-secondary" href="importer"><i class="bi bi-x-circle-fill me-2"></i>Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>

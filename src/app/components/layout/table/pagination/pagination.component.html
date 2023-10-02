@@ -1,0 +1,32 @@
+<section id="pagination">
+    <div class="row">
+        <div class="col-sm-12 col-md-5">
+            <div class="dataTables_info" id="sampleTable_info" role="status" aria-live="polite">
+                Showing {{ from }} to {{ to }} of {{ totalElements }} entries
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-7">
+            <div class="dataTables_paginate paging_simple_numbers" id="sampleTable_paginate">
+                <ul class="pagination">
+                    <li class="paginate_button page-item previous" [ngClass]="{'disabled' : first || numberOfElements == 0 }" id="sampleTable_previous">
+                        <a aria-controls="sampleTable" aria-disabled="true" aria-role="link" data-dt-idx="previous" tabindex="0" 
+                        class="page-link" (click)="onChangePageIndex( pageIndex - 1 )">Previous</a>
+                    </li>
+                    <!--ngFor para la canatidad de paginas-->
+                    <div *ngFor="let page of paginator">
+                        <li class="paginate_button page-item" [ngClass]="{'disabled' : page.pageIndex == -1 }">
+                            <a aria-controls="sampleTable" aria-role="link" aria-current="page" data-dt-idx="1"  tabindex="0" 
+                            class="page-link" [ngClass]="{'active' : page.isActivated }"
+                            (click)="onChangePageIndex( page.pageIndex )"
+                            > {{ page.pageIndex == -1 ? "..." :  page.pageIndex + 1 }} </a>
+                        </li>
+                    </div>
+                    <li class="paginate_button page-item next" [ngClass]="{'disabled' : last || numberOfElements == 0 }" id="sampleTable_next">
+                        <a aria-controls="sampleTable" aria-disabled="true" aria-role="link" data-dt-idx="next" tabindex="0" 
+                        class="page-link" (click)="onChangePageIndex( pageIndex + 1 )">Next</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>

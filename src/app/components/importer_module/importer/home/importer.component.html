@@ -1,0 +1,79 @@
+<main class="app-content">
+    <app-breadcrumb 
+      [title]="breadcrumb.title" 
+      [desription]="breadcrumb.description" 
+      [urls]="breadcrumb.urls">
+    </app-breadcrumb>
+    <app-message 
+      [kindAlert]="alert.kindAlert" 
+      [title]="alert.title" 
+      [message]="alert.message" 
+      (cleanAlert)="alert.onCleanAlert()">
+    </app-message>
+    <div class="row" id="importerContainer">
+      <div class="col-md-12">
+        <div class="tile">            
+          <div class="tile-body">
+            <div class="table-responsive">       
+                <div id="sampleTable_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">  
+                    <app-filter 
+                      [title]="breadcrumb.title" 
+                      (updatePageSize)="onSizePageChange($event)"
+                      (updateFilter)="onFilterChange($event)"
+                      (updateModal)="onOpenModal('', $event)">
+                    </app-filter>       
+                    <table class="table table-hover table-bordered" id="sampleTable">
+                        <thead>
+                        <tr>
+                            <th id="selectAll"><input #chBox type="checkbox" class="form-check-input" 
+                                (change)="onSelectAll(chBox.checked)"/></th>
+                            <th *ngFor="let column of columns">{{ column }}</th>
+                            <th id="actions">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let importer of importerList">
+                            <td><input [(ngModel)]="importer.checked" type="checkbox" class="form-check-input"/></td>
+                            <td>{{ importer.name }}</td>
+                            <td>{{ importer.address.addressLine }}</td>
+                            <td>{{ importer.contactDetails.work_phone }}</td>
+                            <td>{{ importer.contactDetails.email }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-primary edit" (click)="onOpenModal(importer, 'edit')"><i class="bi bi-pencil-square fs-5"></i></a>
+                                    <a class="btn btn-primary delete" (click)="onOpenModal(importer, 'delete')"><i class="bi bi-trash fs-5"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <app-pagination (updatePage)="onPageChange($event)"></app-pagination>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!-- Delete Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+  data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Importer</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="message"></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" 
+            (click)="kindDelete == 1 ? deleteById() : deleteAll()">
+                <i class="bi bi-check-circle-fill me-2"></i> Delete</button>
+            <button id="delete-form" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>          
+        </div>
+      </div>
+    </div>
+  </div>
+  </main>

@@ -1,0 +1,142 @@
+<main class="app-content">
+    <app-breadcrumb 
+      [title]="breadcrumb.title" 
+      [desription]="breadcrumb.description" 
+      [urls]="breadcrumb.urls">
+    </app-breadcrumb>
+    <app-message 
+      [kindAlert]="alert.kindAlert" 
+      [title]="alert.title" 
+      [message]="alert.message" 
+      (cleanAlert)="alert.onCleanAlert()">
+    </app-message>
+    <div class="row" id="countryStateContainer">
+      <div class="col-md-12">
+        <div class="tile">            
+          <div class="tile-body">
+            <div class="table-responsive">       
+                <div id="sampleTable_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">  
+                    <app-filter 
+                      [title]="breadcrumb.title" 
+                      (updatePageSize)="onSizePageChange($event)"
+                      (updateFilter)="onFilterChange($event)"
+                      (updateModal)="onOpenModal('', $event)">
+                    </app-filter>       
+                    <table class="table table-hover table-bordered" id="sampleTable">
+                        <thead>
+                        <tr>
+                            <th id="selectAll"><input #chBox type="checkbox" class="form-check-input" 
+                                (change)="onSelectAll(chBox.checked)"/></th>
+                            <th *ngFor="let column of columns">{{ column }}</th>
+                            <th id="actions">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let countryState of countryStateList">
+                            <td><input [(ngModel)]="countryState.checked" type="checkbox" class="form-check-input"/></td>
+                            <td id="name">{{ countryState.name }}</td>
+                            <td id="code">{{ countryState.country.code }}</td>
+                            <td id="name">{{ countryState.country.name }}</td>
+                            <td>{{ countryState.country.phoneCode }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-primary edit" (click)="onOpenModal(countryState, 'edit')"><i class="bi bi-pencil-square fs-5"></i></a>
+                                    <a class="btn btn-primary delete" (click)="onOpenModal(countryState, 'delete')"><i class="bi bi-trash fs-5"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <app-pagination (updatePage)="onPageChange($event)"></app-pagination>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  <!-- Edit Modal -->
+  <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+  data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+    <form [formGroup]="form" (submit)="save()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">{{ titleDialog }}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3">
+              <label for="id" class="form-form-label" style="display: none;"></label>
+              <input 
+                type="hidden" 
+                class="form-control" 
+                id="id" 
+                formControlName="id" required
+              />
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-form-label">Name</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="name" 
+                  formControlName="name"
+                />
+                <div *ngIf="feedBackName != ''" class="form-control-feedback">{{ feedBackName }}</div>
+            </div>
+            <div class="mb-3">
+                <label for="country" class="form-form-label">Country</label>
+                <select 
+                  class="form-control" 
+                  id="country" 
+                  formControlName="country">
+                    <option *ngFor="let country of countryList" [ngValue]="country">{{ country.name }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button 
+              *ngIf="modelMode" 
+              type="submit" 
+              class="btn btn-primary" 
+              [disabled]="form.invalid"> 
+              <i class="bi bi-check-circle-fill me-2"></i> Register
+            </button>
+            <button 
+              *ngIf="!modelMode"  
+              type="button" 
+              class="btn btn-primary" 
+              [disabled]="form.invalid" 
+              (click)="updateById()">
+              <i class="bi bi-check-circle-fill me-2"></i> Save changes
+            </button>
+            <button id="edit-form" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>          
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+
+  <!-- Delete Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+  data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Country State</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="message"></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" 
+            (click)="kindDelete == 1 ? deleteById() : deleteAll()">
+                <i class="bi bi-check-circle-fill me-2"></i> Delete</button>
+            <button id="delete-form" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>          
+        </div>
+      </div>
+    </div>
+  </div>
+  </main>
