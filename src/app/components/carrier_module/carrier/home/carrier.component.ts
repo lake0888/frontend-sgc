@@ -49,7 +49,7 @@ export class CarrierComponent implements OnInit {
     this.alert = new Alert();
 
     //TABLE HEADER
-    this.columns = ['Name', 'Address', 'Phone', 'Email'];
+    this.columns = ['Name', 'Kind', 'Address', 'Phone', 'Email'];
     this.params = { filter: '', page: 0, size: '' }
 
     this.findAll(this.params);
@@ -151,7 +151,7 @@ export class CarrierComponent implements OnInit {
     );
   }
 
-  public deleteAllByListId(): void {
+  public deleteAllById(): void {
     document.getElementById('delete-form')?.click();
     this.service.deleteAllById({ listId: this.findCarrierSelecteds() }).subscribe(
       (response: any) => {

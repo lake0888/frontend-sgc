@@ -37,10 +37,23 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let carrier of carrierList">
+                                        <td><input 
+                                                type="checkbox" 
+                                                class="form-check-input"
+                                                [ngModel]="carrier.checked"
+                                                (change)="carrier.checked = !carrier.checked"
+                                                ></td>
                                         <td id="name">{{ carrier.name }}</td>
-                                        <td>{{ carrier.address.addressLine }}</td>
-                                        <td>{{ carrier.contactDetails.work_phone }}</td>
-                                        <td>{{ carrier.contactDetails.email }}</td>
+                                        <td id="kindCarrier">{{ carrier.kindCarrier }}</td>
+                                        <td id="address">{{ carrier.address.addressLine }}</td>
+                                        <td id="phone">{{ carrier.contactDetails.work_phone }}</td>
+                                        <td id="email">{{ carrier.contactDetails.email }}</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a class="btn btn-primary edit" (click)="onOpenModal(carrier, 'edit')"><i class="bi bi-pencil-square fs-5"></i></a>
+                                                <a class="btn btn-primary delete" (click)="onOpenModal(carrier, 'delete')"><i class="bi bi-trash fs-5"></i></a>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -68,7 +81,7 @@
             <button 
                 type="button" 
                 class="btn btn-primary" 
-                (click)="kindDelete == 1 ? deleteById() : deleteAllByListId()">
+                (click)="kindDelete == 1 ? deleteById() : deleteAllById()">
                 <i class="bi bi-check-circle-fill me-2"></i>Delete
             </button>
             <button 

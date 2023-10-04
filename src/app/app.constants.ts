@@ -19,6 +19,6 @@ export class AppConstants {
     //CARRIER MODULE
     public static CARRIER_API_URL = `${ AppConstants.API_BASE_URL }carrier`;
 
-    //PRIVIDER MODULE
+    //PROVIDER MODULE
     public static PROVIDER_API_URL = `${ AppConstants.API_BASE_URL }provider`;
 }

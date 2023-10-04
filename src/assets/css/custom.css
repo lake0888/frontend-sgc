@@ -36,9 +36,32 @@ table tbody tr td#name {
     text-wrap: wrap;
 }
 
+table tbody tr td#kindCarrier{
+    width: 10%;
+    text-wrap: wrap;
+}
+
 table tbody tr td#specialty {
     width: 21%;
     text-wrap: wrap;
+}
+
+table tbody tr td#address{
+    width: 25%;
+    text-wrap: wrap;
+    overflow: hidden;
+}
+
+table tbody tr td#phone{
+    width: 10%;
+    text-wrap: wrap;
+    overflow: hidden;
+}
+
+table tbody tr td#email{
+    width: 10%;
+    text-wrap: wrap;
+    overflow: hidden;
 }
 
 table tr td div.btn-group a{

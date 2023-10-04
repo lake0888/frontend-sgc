@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
-import Page from 'src/app/api/pagination/page';
+import Page from 'src/app/api/util/pagination/page';
 import { ShareService } from 'src/app/services/share.service';
 
 @Component({

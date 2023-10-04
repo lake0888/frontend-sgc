@@ -349,7 +349,7 @@ export class CountryStateComponent implements OnInit {
   private findAllCountry(): void {
     this.countryService.findAllByName("").subscribe(
       (response: any) => {
-        this.countryList = response['content'];
+        this.countryList = response;
 
       }, (error: HttpErrorResponse) => {
         this.alert.kindAlert = KindAlert.Danger;

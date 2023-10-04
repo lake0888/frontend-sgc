@@ -9,6 +9,8 @@ import { ImporterComponent } from './components/importer_module/importer/home/im
 import { ImporterPageComponent } from './components/importer_module/importer/page/importer-page.component';
 import { CarrierComponent } from './components/carrier_module/carrier/home/carrier.component';
 import { CarrierPageComponent } from './components/carrier_module/carrier/page/carrier-page.component';
+import { ProviderComponent } from './components/provider_module/home/provider/provider.component';
+import { ProviderPageComponent } from './components/provider_module/page/provider-page/provider-page.component';
 
 
 const routes: Routes = [
@@ -23,7 +25,10 @@ const routes: Routes = [
   { path: 'importer/:id/edit', component: ImporterPageComponent, title: 'Importer Page' },
   { path: 'carrier', component: CarrierComponent, title: 'Home Carrier'},
   { path: 'carrier/add', component: CarrierPageComponent, title: 'Carrier Page' },
-  { path: 'carrier/:id/edit', component: CarrierPageComponent, title: 'Carrier Page' }
+  { path: 'carrier/:id/edit', component: CarrierPageComponent, title: 'Carrier Page' },
+  { path: 'provider', component: ProviderComponent, title: 'Home Provider' },
+  { path: 'provider/add', component: ProviderPageComponent, title: 'Provider Page' },
+  { path: 'provider/:id/edit', component: ProviderPageComponent, title: 'Provider Page' }
 ];
 
 @NgModule({

@@ -14,9 +14,7 @@ export class SpecialtyService extends DataService {
   }
 
   public findAllByName(name: string): Observable<any> {
-    let url = `${ this.url }/findAll`;
-    if (name != '') url += `${ name }`;
-    return this.http.get<any>(url);
+    return this.http.get<any>(`${ this.url }/findAll/${ name }`);
   }
 
   public findByFamily_NotNull(params: any): Observable<any> {

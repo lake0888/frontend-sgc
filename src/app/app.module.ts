@@ -25,6 +25,8 @@ import { ImporterComponent } from './components/importer_module/importer/home/im
 import { ImporterPageComponent } from './components/importer_module/importer/page/importer-page.component';
 import { CarrierComponent } from './components/carrier_module/carrier/home/carrier.component';
 import { CarrierPageComponent } from './components/carrier_module/carrier/page/carrier-page.component';
+import { ProviderComponent } from './components/provider_module/home/provider/provider.component';
+import { ProviderPageComponent } from './components/provider_module/page/provider-page/provider-page.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { CarrierPageComponent } from './components/carrier_module/carrier/page/c
     ImporterComponent,
     ImporterPageComponent,
     CarrierComponent,
-    CarrierPageComponent,  
+    CarrierPageComponent,
+    ProviderComponent,
+    ProviderPageComponent,  
   ],
   imports: [
     BrowserModule,

@@ -9,5 +9,14 @@ class JUtil {
         }
         return -1;
     }
+
+    public static getListChecked(elementList: Array<any>): Array<number> {
+        var subList: Array<number> = new Array<number>();
+        for (let element of elementList) {
+            if (element.checked)
+                subList.push(element.id);
+        }
+        return subList;
+    }
 }
 export default JUtil;

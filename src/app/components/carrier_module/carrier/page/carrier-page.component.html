@@ -1,20 +1,157 @@
 <main class="app-content">
-    <app-breadcrumb 
-        [title]="breadcrumb.title" 
-        [desription]="breadcrumb.description"
-        [urls]="breadcrumb.urls">
-    </app-breadcrumb>
-    <app-message
-        [kindAlert]="alert.kindAlert"
-        [title]="alert.title"
-        [message]="alert.message"
-        ></app-message>
-        <div class="row">
-            <div class="col-md-12">
-              <div class="tile"> 
-                TODO
-              </div>
-            </div>
+  <div class="row user">
+    <div class="col-md-12">
+      <div class="profile">
+        <div class="info">
+          <div class="form-group">
+            <label class="form-label"></label>
+            <input 
+              class="form-control" 
+              type="file" 
+              placeholder="Select image" 
+              id="loadImage" 
+              (change)="uploadImage($event)"
+              style="display: none;"
+            />
+          </div>
+          <div class="form-group" id="containerImageImporter">
+            <img 
+              [src]="srcImage"
+              id="imageFile"
+              class="img-fluid rounded form-control"
+              (click)="loadImage()"
+            />
+            <h4>{{ form.get('name')?.value }}</h4>
+            <p>{{ form.get('cif')?.value }}</p>
+          </div>
         </div>
-        
+        <div class="cover-image"></div>
+      </div>
+    </div>
+    <!--
+    <app-breadcrumb 
+      [title]="breadcrumb.title" 
+      [desription]="breadcrumb.description" 
+      [urls]="breadcrumb.urls">
+    </app-breadcrumb>
+    -->
+    
+    <app-message 
+      [kindAlert]="alert.kindAlert" 
+      [title]="alert.title" 
+      [message]="alert.message" 
+      (cleanAlert)="alert.onCleanAlert()">
+    </app-message>
+    <div class="col-md-3">
+      <div class="tile p-0">
+        <ul class="nav flex-column nav-tabs user-tabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a 
+              class="nav-link active" 
+              href="#carrier-info" 
+              data-bs-toggle="tab" 
+              aria-selected="false" 
+              role="tab" 
+              tabindex="-1">Carrier
+            </a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a 
+              class="nav-link" 
+              href="#carrier-details" 
+              data-bs-toggle="tab" 
+              aria-selected="true" 
+              role="tab">Contact Details
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="tab-content">
+          <div class="tab-pane active show" id="carrier-info" role="tabpanel">
+            <div class="tile">
+              <h4 class="line-head">Carrier</h4>
+              <div class="form-group">
+                <label for="id" style="display: none;"></label>
+                <input
+                  type="hidden"
+                  class="form-control"
+                  formControlName="id"
+                />
+              </div>
+              <div class="row">
+                <div class="mb-3 col-md-4 form-group">
+                  <label class="form-label">Name</label>
+                  <input 
+                    class="form-control" 
+                    type="text" 
+                    placeholder="Enter name" 
+                    id="name" 
+                    formControlName="name"
+                    maxlength="11"
+                  />
+                  <div class="form-control-feedback" *ngIf="feedBackName != ''">{{ feedBackName }}</div>
+                </div>
+                <div class="mb-3 col-md-4 form-group">
+                  <label class="form-label">Cif</label>
+                  <input 
+                    class="form-control" 
+                    type="text" 
+                    placeholder="Enter cif" 
+                    id="cif" 
+                    formControlName="cif"
+                    maxlength="11"
+                  />
+                  <div class="form-control-feedback" *ngIf="feedBackCif != ''">{{ feedBackCif }}</div>
+                </div>
+                <div class="mb-3 form-group col-md-4">
+                  <label for="kindCarrier" class="form-label">Kind Carrier</label>
+                  <select 
+                    class="form-control"
+                    formControlName="kindCarrier"
+                    id="kindCarrier">
+                    <option value="Terrestrial">Terrestrial</option>
+                    <option value="Maritime">Maritime</option>
+                    <option value="Aerial">Aerial</option>
+                    <option value="Multimodal">Multimodal</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mb-3 form-group">
+                <label class="form-label">Description</label>
+                <textarea
+                  class="form-control" 
+                  rows="3" 
+                  placeholder="Enter description" 
+                  id="description" 
+                  formControlName="description"
+                  >
+                </textarea>
+              </div>
+              <app-address formGroupName="address"></app-address>
+            </div>
+          </div>
+          <div class="tab-pane" id="carrier-details" role="tabpanel">
+            <div class="tile">
+              <h4 class="line-head">Details</h4>
+              <app-contact-details formGroupName="contactDetails"></app-contact-details>
+            </div>
+          </div>
+          <div class="tile-footer">
+            <button type="submit" class="btn btn-primary" *ngIf="modelMode">
+              <i class="bi bi-check-circle-fill me-2"></i>
+              Register</button>
+            <button type="button" class="btn btn-primary" *ngIf="!modelMode"
+            (click)="updateById()">
+              <i class="bi bi-check-circle-fill me-2"></i>
+              Save changes</button>
+              &nbsp;&nbsp;&nbsp;
+              <a class="btn btn-secondary" href="carrier"><i class="bi bi-x-circle-fill me-2"></i>Cancel</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </main>

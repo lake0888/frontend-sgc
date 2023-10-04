@@ -11,6 +11,8 @@ import Url from 'src/app/api/util/url';
 import { ShareService } from 'src/app/services/share.service';
 import BreadCrumb from 'src/app/api/util/breadcrumb';
 import Alert from 'src/app/api/util/alert';
+import { ImageService } from 'src/app/services/modules/image/image.service';
+import { AppConstants } from 'src/app/app.constants';
 
 @Component({
   selector: 'app-importer-page',
@@ -24,6 +26,8 @@ export class ImporterPageComponent implements OnInit {
 
   form!: FormGroup;
   public imageFile!: File;
+  private imageService: ImageService;
+  public srcImage: string;
 
   public modelMode: boolean;
 
@@ -36,20 +40,22 @@ export class ImporterPageComponent implements OnInit {
   public feedBackName: string;
   public feedBackNit: string;
 
-  constructor(private formBuilder: FormBuilder, private router: Router,
-    private shareService: ShareService) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private shareService: ShareService) {
     this.route = inject(ActivatedRoute);
     const importerId = Number(this.route.snapshot.params['id']);
 
     this.importer = new Importer();
     this.service = inject(ImporterService);
 
+    this.imageService = inject(ImageService);
+    this.srcImage = 'assets/images/image_not_found.png'
+
     //BREADCRUMB
     this.breadcrumb = new BreadCrumb(
-      (importerId > 0) ? "Edit Importer" : "Add Importer",
-      "Importer Dialog");
-    this.breadcrumb.urls.push(new Url('importer', 'importer'));
-    this.breadcrumb.urls.push((importerId > 0) ? new Url('edit', 'importer/' + importerId + '/edit') : new Url('add', 'importer/add'));
+      (importerId > 0) ? 'Edit Importer' : 'Add Importer',
+      'Importer Dialog');
+    this.breadcrumb.urls.push(new Url('Importer', 'importer'));
+    this.breadcrumb.urls.push((importerId > 0) ? new Url('edit', `importer/${ importerId }/edit`) : new Url('add', 'importer/add'));
 
     //ALERT
     this.alert = new Alert();
@@ -60,7 +66,7 @@ export class ImporterPageComponent implements OnInit {
 
     if (importerId > 0) {
       this.findById(importerId);
-      this.modelMode = false;
+      this.modelMode = false;        
     } else {
       this.modelMode = true;
     }
@@ -81,8 +87,8 @@ export class ImporterPageComponent implements OnInit {
         city: new FormControl(null),
         county: new FormControl(null),
         zipcode: new FormControl(null),
-        country: new FormControl(null),
-        countryState: new FormControl(null)
+        country: new FormControl(null, Validators.required),
+        countryState: new FormControl(null, Validators.required)
       }),
       contactDetails: new FormGroup({
         home_phone: new FormControl(null),
@@ -104,7 +110,8 @@ export class ImporterPageComponent implements OnInit {
         addressLine: this.importer.address.addressLine,
         city: this.importer.address.city,
         county: this.importer.address.county,
-        zipcode: this.importer.address.zipcode
+        zipcode: this.importer.address.zipcode,
+        countryState: this.importer.address.countryState
       },
       contactDetails: {
         home_phone: this.importer.contactDetails.home_phone,
@@ -123,6 +130,9 @@ export class ImporterPageComponent implements OnInit {
 
         this.updateForm();
         this.shareService.sendData(this.importer.address.countryState);
+
+        if (this.importer.contactDetails.image.filename != '')
+          this.srcImage = `${ AppConstants.IMAGE_API_URL }/${ this.importer.contactDetails.image.id }`;
 
       }, (error: HttpErrorResponse) => {
         this.alert.kindAlert = KindAlert.Warning;
@@ -196,13 +206,38 @@ export class ImporterPageComponent implements OnInit {
     );
 
     //ADD IMAGE
-    formData.append('imageFile', this.imageFile, this.imageFile.name);
+    if (this.imageFile)
+      formData.append('imageFile', this.imageFile, this.imageFile.name);
+    else
+      formData.append('imageFile', new File([], ''), '');
 
     return formData;
   }
 
-  public updateImageFile(imageFile: File): void {
-    this.imageFile = imageFile;
+
+  public loadImage(): void {
+    document.getElementById('loadImage')?.click();
+  }
+
+  public uploadImage(event: any): void {
+    this.imageFile = event.target.files[0];
+
+    const formData: FormData = new FormData();
+    formData.append('files', this.imageFile, this.imageFile.name);
+
+    this.prepareImage(formData);
+  }
+
+  private prepareImage(formData: FormData): void {
+    this.imageService.uploadFiles(formData).subscribe(
+      (response: HttpEvent<any>) => {
+        switch(response.type) {
+          case HttpEventType.Response:
+              this.srcImage = `${ AppConstants.IMAGE_API_URL }/temp/${ response.body[0].filename }`;
+            break;
+        }
+      }
+    );
   }
 }
 

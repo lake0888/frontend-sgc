@@ -39,11 +39,13 @@ export class AddressComponent implements OnInit {
     this.countryStateService = inject(CountryStateService);
 
     this.countryState = new CountryState();
+
     this.subscription = this.shareService.getData().subscribe(
       (response: any) => {
         this.countryState = response;
       }
     );
+
   }
 
   
@@ -53,9 +55,9 @@ export class AddressComponent implements OnInit {
   }
 
   private findAllCountry(): void {
-    this.countryService.findAllByName("").subscribe(
+    this.countryService.findByState_NotNull({ name: "" }).subscribe(
       (response: any) => {
-        this.countryList = response['content'];
+        this.countryList = response;
 
         var country: Country = this.countryState.country;
         var indexCountry = JUtil.findElement(this.countryList, country);

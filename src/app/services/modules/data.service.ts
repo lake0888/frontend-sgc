@@ -33,4 +33,8 @@ export class DataService {
   public deleteAllById(params: any): Observable<any> {
       return this.http.delete<any>(`${ this.url }/deleteAllById`, {params});
   }
+
+  public count(): Observable<any> {
+    return this.http.get<any>(`${ this.url }/count`);
+  }
 }

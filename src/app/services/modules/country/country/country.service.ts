@@ -16,4 +16,8 @@ export class CountryService extends DataService {
   public findAllByName(name: string): Observable<any> {
     return this.http.get<any>(`${ this.url }/findAll/${ name }`);
   }
+
+  public findByState_NotNull(params: any): Observable<any> {
+    return this.http.get<any>(`${ this.url }/findByState_NotNull`, {params});
+  }
 }

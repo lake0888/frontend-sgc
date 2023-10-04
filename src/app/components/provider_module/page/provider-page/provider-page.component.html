@@ -1,0 +1,121 @@
+<main class="app-content">
+    <div class="row user">
+      <div class="col-md-12">
+        <div class="profile">
+          <div class="info">
+                <div class="form-group">
+                    <label for="imageLoad"></label>
+                    <input 
+                        type="file"
+                        id="loadImage"
+                        class="form-control"
+                        style="display: none;"
+                        (change)="updateImage($event)"
+                    />
+                </div>
+                <img class="img-fluid rounded form-control" [src]="srcImage" (click)="loadImage()">
+            <h4>{{ form.get('name')?.value }}</h4>
+            <p>{{ form.get('cif')?.value }}</p>
+          </div>
+          <div class="cover-image"></div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="tile p-0">
+          <ul class="nav flex-column nav-tabs user-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a 
+                    class="nav-link active" 
+                    href="#provider-info" 
+                    data-bs-toggle="tab" 
+                    aria-selected="true" 
+                    role="tab">Provider
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a 
+                    class="nav-link" 
+                    href="#provider-details" 
+                    data-bs-toggle="tab" 
+                    aria-selected="false" 
+                    role="tab" 
+                    tabindex="-1">Details
+                </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <form [formGroup]="form" (ngSubmit)="save()">
+            <div class="tab-content">
+                <div class="tab-pane active show" id="provider-info" role="tabpanel">
+                    <div class="tile">
+                        <h4 class="line-head">Provider</h4>
+                        <div class="form-group">
+                            <label for="id" style="display: none;"></label>
+                            <input 
+                                type="hidden"
+                                id="id"
+                                formControlName="id"
+                                class="form-control"
+                            />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input 
+                                        type="text"
+                                        id="name"
+                                        formControlName="name"
+                                        class="form-control"
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="cif">Cif</label>
+                                    <input 
+                                        type="text"
+                                        id="cif"
+                                        formControlName="cif"
+                                        class="form-control"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea
+                                id="description"
+                                formControlName="description"
+                                class="form-control"
+                                maxlength="255"
+                                rows="4"> 
+                            </textarea>
+                        </div>
+                        <app-address formGroupName="address"></app-address>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="provider-details" role="tabpanel">
+                    <div class="tile">
+                        <h4 class="line-head">Contact Details</h4>
+                        <app-contact-details formGroupName="contactDetails"></app-contact-details>
+                    </div>
+                </div>
+                <div class="tile-footer">
+                    <button type="submit" class="btn btn-primary" *ngIf="modelMode">
+                      <i class="bi bi-check-circle-fill me-2"></i>
+                      Register</button>
+                    <button type="button" class="btn btn-primary" *ngIf="!modelMode"
+                    (click)="updateById()">
+                      <i class="bi bi-check-circle-fill me-2"></i>
+                      Save changes</button>
+                      &nbsp;&nbsp;&nbsp;
+                      <a class="btn btn-secondary" href="provider"><i class="bi bi-x-circle-fill me-2"></i>Cancel</a>
+                </div>
+            </div>
+        </form>
+      </div>
+    </div>
+  </main>
