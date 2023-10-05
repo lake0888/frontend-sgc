@@ -27,6 +27,7 @@ import { CarrierComponent } from './components/carrier_module/carrier/home/carri
 import { CarrierPageComponent } from './components/carrier_module/carrier/page/carrier-page.component';
 import { ProviderComponent } from './components/provider_module/home/provider/provider.component';
 import { ProviderPageComponent } from './components/provider_module/page/provider-page/provider-page.component';
+import { CoinComponent } from './components/util/coin/coin.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { ProviderPageComponent } from './components/provider_module/page/provide
     CarrierComponent,
     CarrierPageComponent,
     ProviderComponent,
-    ProviderPageComponent,  
+    ProviderPageComponent,
+    CoinComponent,  
   ],
   imports: [
     BrowserModule,

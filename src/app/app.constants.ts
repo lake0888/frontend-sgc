@@ -11,7 +11,8 @@ export class AppConstants {
     //UTIL
     public static COUNTRY_API_URL = `${ AppConstants.API_BASE_URL }country`;
     public static COUNTRY_STATE_API_URL = `${ AppConstants.API_BASE_URL }countrystate`;
-    public static IMAGE_API_URL = `${ AppConstants.API_BASE_URL }images`
+    public static IMAGE_API_URL = `${ AppConstants.API_BASE_URL }images`;
+    public static COIN_API_URL = `${ AppConstants.API_BASE_URL }coin`;
 
     //IMPORTER MODULE
     public static IMPORTER_API_URL = `${ AppConstants.API_BASE_URL }importer`;
@@ -21,4 +22,8 @@ export class AppConstants {
 
     //PROVIDER MODULE
     public static PROVIDER_API_URL = `${ AppConstants.API_BASE_URL }provider`;
+
+    //BANK MODULE
+    public static BANK_API_URL = `${ AppConstants.API_BASE_URL }bank`;
+    public static BANKACCOUNT_API_URL = `${ AppConstants.API_BASE_URL }account`;
 }

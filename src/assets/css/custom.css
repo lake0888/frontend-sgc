@@ -23,7 +23,7 @@
 }
 
 table thead tr th#selectAll, th#actions{
-    width: 5%;
+    width: 1%;
 }
 
 table tbody tr td#code {
