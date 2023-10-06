@@ -12,6 +12,9 @@ import { CarrierPageComponent } from './components/carrier_module/carrier/page/c
 import { ProviderComponent } from './components/provider_module/home/provider/provider.component';
 import { ProviderPageComponent } from './components/provider_module/page/provider-page/provider-page.component';
 import { CoinComponent } from './components/util/coin/coin.component';
+import { BankComponent } from './components/bank_module/bank/home/bank.component';
+import { BankPageComponent } from './components/bank_module/bank/page/bank-page.component';
+import { AccountComponent } from './components/bank_module/account/home/account.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'specialty', pathMatch: 'full' },
@@ -29,7 +32,11 @@ const routes: Routes = [
   { path: 'provider', component: ProviderComponent, title: 'Home Provider' },
   { path: 'provider/add', component: ProviderPageComponent, title: 'Provider Page' },
   { path: 'provider/:id/edit', component: ProviderPageComponent, title: 'Provider Page' },
-  { path: 'coin', component: CoinComponent, title: 'Home Coin' }
+  { path: 'coin', component: CoinComponent, title: 'Home Coin' },
+  { path: 'bank', component: BankComponent, title: 'Home Bank '},
+  { path: 'bank/add', component: BankPageComponent, title: 'Bank Page' },
+  { path: 'bank/:id/edit', component: BankPageComponent, title: 'Bank Page' },
+  { path: 'account', component: AccountComponent, title: 'Home Bank Account' }
 ];
 
 @NgModule({

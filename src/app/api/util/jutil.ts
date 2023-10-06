@@ -18,5 +18,11 @@ class JUtil {
         }
         return subList;
     }
+
+    public static onSelectAll(elementList: Array<any>, flag: boolean) : void {
+        for (let element of elementList) {
+            element.checked = flag;
+        }
+    }
 }
 export default JUtil;

@@ -1,0 +1,88 @@
+<main class="app-content">
+    <app-breadcrumb
+        [title]="breadcrumb.title"
+        [desription]="breadcrumb.description"
+        [urls]="breadcrumb.urls">
+    </app-breadcrumb>
+    <app-message 
+        [kindAlert]="alert.kindAlert"
+        [title]="alert.title"
+        [message]="alert.message"
+        (cleanAlert)="alert.onCleanAlert()">
+    </app-message>
+    <div class="row" id="containerBank">
+        <div class="col-md-12">
+            <div class="tile">
+                <div class="tile-body">
+                    <div class="table-responsive">
+                        <div id="sampleTable_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                            <app-filter 
+                                [title]="breadcrumb.title"
+                                (updateFilter)="onChangeFilter($event)"
+                                (updatePageSize)="onChangePageSize($event)"
+                                (updateModal)="onOpenModal('', $event)">
+                            </app-filter>
+                            <div class="row row-dt">
+                                <div class="col-sm-12">
+                                    <table class="table table-hover table-bordered dataTable no-footer" id="sampleTable" aria-describedby="sampleTable_info">
+                                        <thead>
+                                            <tr>
+                                                <th id="selectAll">
+                                                    <input #chBox type="checkbox" class="form-check-input" (change)="onSelectAll(chBox.checked)"/>
+                                                </th>
+                                                <th *ngFor="let column of columns">{{ column }}</th>
+                                                <th id="actions">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let bank of bankList">
+                                                <td>
+                                                    <input #chBox1 [ngModel]="bank.checked" type="checkbox" class="form-check-input" (ngModelChange)="bank.checked = chBox1.checked"/>
+                                                </td>
+                                                <td id="code">{{ bank.code }}</td>
+                                                <td id="name">{{ bank.name }}</td>
+                                                <td id="swift">{{ bank.swift }}</td>
+                                                <td id="phone">{{ bank.contactDetails.work_phone }}</td>
+                                                <td id="email">{{ bank.contactDetails.email }}</td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-primary edit" (click)="onOpenModal(bank, 'edit')"><i class="bi bi-pencil-square fs-5"></i></a>
+                                                        <a class="btn btn-primary delete" (click)="onOpenModal(bank, 'delete')"><i class="bi bi-trash fs-5"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <app-pagination (updatePage)="onPageChange($event)"></app-pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete Bank</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="message"></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="kindDelete == 1 ? deleteById() : deleteAll()">
+                <i class="bi bi-check-circle-fill me-2"></i>Ok
+            </button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="delete-form">
+                <i class="bi bi-x-circle-fill me-2"></i>Close
+            </button>
+        </div>
+      </div>
+    </div>
+</div>

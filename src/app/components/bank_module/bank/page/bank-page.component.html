@@ -1,0 +1,77 @@
+<main class="app-content">
+    <div class="row user">
+      <div class="col-md-12">
+        <div class="profile">
+          <div class="info">
+            <div class="form-group">
+                <input type="file" class="form-control" id="loadImage" (change)="updateImage($event)" style="display: none;"/>
+            </div>
+            <img class="img-fluid rounded form-control" [src]="srcImage" (click)="loadImage()">
+            <h4>{{ form.get('code')?.value }}</h4>
+            <p>{{ form.get('swift')?.value }}</p>
+          </div>
+          <div class="cover-image"></div>
+        </div>
+      </div>
+      <app-message
+        [kindAlert]="alert.kindAlert"
+        [title]="alert.title"
+        [message]="alert.message"
+        (cleanAlert)="alert.onCleanAlert()">
+      </app-message>
+      <div class="col-md-3">
+        <div class="tile p-0">
+          <ul class="nav flex-column nav-tabs user-tabs" role="tablist">
+            <li class="nav-item" role="presentation"><a class="nav-link active" href="#bank-info" data-bs-toggle="tab" aria-selected="true" role="tab">Bank</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link" href="#bank-details" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Details</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <form [formGroup]="form" (ngSubmit)="save()">
+            <div class="tab-content">
+            <div class="tab-pane active show" id="bank-info" role="tabpanel">
+                <div class="tile user-settings">
+                    <h4 class="line-head">Bank</h4>
+                    <div class="form-group">
+                        <input type="hidden" id="id" formControlName="id" class="form-control"/>
+                    </div>
+                    <div class="row">                        
+                        <div class="mb-3 col-md-4">
+                            <div class="form-group">
+                                <label for="code">Code</label>
+                                <input type="text" id="code" formControlName="code" class="form-control" maxlength="10"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" formControlName="name" class="form-control" maxlength="30"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <div class="form-group">
+                                <label for="swift">Swift</label>
+                                <input type="text" id="swift" formControlName="swift" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <app-address formGroupName="address"></app-address>
+                </div>
+
+            </div>
+            <div class="tab-pane fade" id="bank-details" role="tabpanel">
+                <div class="tile user-settings">
+                <h4 class="line-head">Details</h4>
+                    <app-contact-details formGroupName="contactDetails"></app-contact-details>
+                </div>
+            </div>
+            </div>
+            <button type="submit" class="btn btn-primary" *ngIf="modelMode"><i class="bi bi-check-circle-fill me-2"></i>Register</button>
+            <button type="button" class="btn btn-primary" *ngIf="!modelMode" (click)="updateById()"><i class="bi bi-check-circle-fill me-2"></i>Save changes</button>
+            &nbsp;&nbsp;&nbsp;
+            <a class="btn btn-secondary" href="bank"><i class="bi bi-x-circle-fill me-2"></i>Cancel</a>
+        </form>
+      </div>
+    </div>
+  </main>
