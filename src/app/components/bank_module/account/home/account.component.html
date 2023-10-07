@@ -1,1 +1,136 @@
-<p>account works!</p>
+<main class="app-content">
+    <app-breadcrumb
+        [title]="breadcrumb.title"
+        [desription]="breadcrumb.description"
+        [urls]="breadcrumb.urls">
+    </app-breadcrumb>
+    <app-message
+        [kindAlert]="alert.kindAlert"
+        [title]="alert.title"
+        [message]="alert.message"
+        (cleanAlert)="alert.onCleanAlert()">
+    </app-message>
+    <div class="row" id="accountContainer">
+        <div class="col-md-12">
+            <div class="tile">
+                <div class="tile-body">
+                    <div class="table-responsive">
+                        <div id="sampleTable_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                            <app-filter
+                                title="Account"
+                                (updateFilter)="onChangeFilter($event)"
+                                (updatePageSize)="onChangePageSize($event)"
+                                (updateModal)="onOpenModal('', $event)">
+                            </app-filter>
+                            <div class="row dt-row">
+                                <div class="col-sm-12">
+                                    <table class="table table-hover table-bordered dataTable no-footer" id="sampleTable" aria-describedby="sampleTable_info">
+                                        <thead>
+                                        <tr>
+                                            <th id="selectAll">
+                                                <input #chBox type="checkbox" class="form-check-input" (change)="onSelectAll(chBox.checked)">
+                                            </th>
+                                            <th *ngFor="let column of columns">{{ column }}</th>
+                                            <th id="actions">Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let account of accountList">
+                                                <td><input #chBox1 type="checkbox" class="form-check-input" [ngModel]="account.checked" (change)="account.checked = !account.checked"/></td>
+                                                <td id="name">{{ account.number }}</td>
+                                                <td id="name">{{ account.iban }}</td>
+                                                <td id="code">{{ account.coin.code }}</td>
+                                                <td id="code">{{ account.bank.name }}</td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-primary edit" (click)="onOpenModal(account, 'edit')"><i class="bi bi-pencil-square fs-5"></i></a>
+                                                        <a class="btn btn-primary delete" (click)="onOpenModal(account, 'delete')"><i class="bi bi-trash fs-5"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <app-pagination></app-pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ titleDialog }}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form [formGroup]="form" (ngSubmit)="save()">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="id" style="display: none;"></label>
+                    <input type="hidden" formControlName="id" class="form-control" id="id" />
+                </div>
+                <div class="form-group">
+                    <label for="number">Number</label>
+                    <input type="text" formControlName="number" class="form-control" id="number" />
+                </div>
+                <div class="form-group">
+                    <label for="iban">Iban</label>
+                    <input type="text" formControlName="iban" class="form-control" id="iban" />
+                </div>
+                <div class="form-group">
+                    <label for="coin">Coin</label>
+                    <select formControlName="coin" class="form-control">
+                        <option *ngFor="let coin of coinList" [ngValue]="coin">{{ coin.code }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bank">Bank</label>
+                    <select formControlName="bank" class="form-control">
+                        <option *ngFor="let bank of bankList" [ngValue]="bank">{{ bank.name }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" *ngIf="modelMode" [disabled]="form.invalid">
+                    <i class="bi bi-check-circle-fill me-2"></i>Register
+                </button>
+                <button type="button" class="btn btn-primary" *ngIf="!modelMode" (click)="updateById()" [disabled]="form.invalid">
+                    <i class="bi bi-check-circle-fill me-2"></i>Save changes
+                </button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="edit-form">
+                    <i class="bi bi-x-circle-fill me-2"></i>Close
+                </button>          
+            </div>
+        </form>
+      </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="message"></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="kindDelete == 1 ? deleteById() : deleteAllById()">
+                <i class="bi bi-check-circle-fill me-2"></i>Save changes
+            </button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="delete-form">
+                <i class="bi bi-x-circle-fill me-2"></i>Close
+            </button>  
+        </div>
+      </div>
+    </div>
+</div>

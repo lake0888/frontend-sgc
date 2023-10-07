@@ -13,8 +13,8 @@ export class SpecialtyService extends DataService {
     super(AppConstants.SPECIALTY_API_URL, http);
   }
 
-  public findAllByName(name: string): Observable<any> {
-    return this.http.get<any>(`${ this.url }/findAll/${ name }`);
+  public findAllByName(params: any): Observable<any> {
+    return this.http.get<any>(`${ this.url }/findAll`, { params });
   }
 
   public findByFamily_NotNull(params: any): Observable<any> {

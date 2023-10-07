@@ -89,13 +89,12 @@ export class FamilyComponent implements OnInit{
 
     //SEARCH AND PAGINATION
     this.params = { filter: "", page: 0, size: 10 };
-
-    this.findAll(this.params);
-    this.findAllSpecialties();
   }
 
   ngOnInit(): void {
     this.initForm();
+    this.findAll(this.params);
+    this.findAllSpecialties();
   }
 
   private initForm(): void {
@@ -119,6 +118,7 @@ export class FamilyComponent implements OnInit{
   }
 
   public onOpenModal(family: any, mode: string): void {
+    console.log(this.specialtyList)
     this.alert.onCleanAlert();
     const container = document.getElementById('familyContainer');
     const button = document.createElement('button');
@@ -189,10 +189,10 @@ export class FamilyComponent implements OnInit{
 
   //SPECIALTIES
   private findAllSpecialties(): void {
-    this.specialtyService.findAllByName("").subscribe(
+    this.specialtyService.findAllByName({ name: "" }).subscribe(
       (response: any) => {
         if (response) {
-          this.specialtyList = response['content'];
+          this.specialtyList = response;
         }
       }
     );

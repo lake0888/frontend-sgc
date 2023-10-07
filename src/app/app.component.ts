@@ -26,13 +26,17 @@ export class AppComponent {
       // Activate sidebar treeview toggle
       $("[data-toggle='treeview']").click(function(event: any) {
         event.preventDefault();
-        /*
-        if(!$(this).parent().hasClass('is-expanded')) {
-          treeviewMenu.find("[data-toggle='treeview']").parent().removeClass('is-expanded');
-        }
-        $(this).parent().toggleClass('is-expanded');
-        */
       });
+
+      const listItems = document.querySelectorAll("[data-toggle='treeview']");
+      listItems.forEach((element) => {
+        element.parentElement?.classList.remove('is-expanded');
+        element.addEventListener('click', function($event){
+          element.parentElement?.classList.toggle('is-expanded');
+        })
+      });
+
+      
     });
   }
 }
