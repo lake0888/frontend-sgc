@@ -1,0 +1,148 @@
+<main class="app-content">
+    <app-breadcrumb 
+        [title]="breadcrumb.title" 
+        [desription]="breadcrumb.description" 
+        [urls]="breadcrumb.urls">
+    </app-breadcrumb>
+    <app-message 
+        [kindAlert]="alert.kindAlert"  
+        [title]="alert.title" 
+        [message]="alert.message"
+        (cleanAlert)="alert.onCleanAlert()">
+    </app-message>
+    <div class="row" id="kindArticleContainer">
+        <div class="col-md-12">
+            <div class="tile">
+            <div class="tile-body">
+                <div class="table-responsive" >
+                    <div id="sampleTable_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                        <app-filter 
+                            (updateFilter)="onFilterChange($event)" 
+                            (updatePageSize)="onSelected($event)"
+                            (updateModal)="onOpenModal('', $event)">
+                        </app-filter>
+                        <div class="row dt-row">
+                            <div class="col-sm-12">
+                                <table class="table table-hover table-bordered" id="sampleTable">
+                                    <thead>
+                                    <tr>
+                                        <th id="selectAll">
+                                            <input 
+                                                class="form-check-input" 
+                                                type="checkbox" 
+                                                #chBox (click)="onSelectAll(chBox.checked)"
+                                                [(ngModel)]="selectAll"
+                                            />
+                                        </th>
+                                        <th *ngFor="let column of columns">{{ column }}</th>
+                                        <th id="actions">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let kindArticle of kindArticleList">
+                                        <td><input 
+                                                #chBox1 
+                                                class="form-check-input" 
+                                                type="checkbox"
+                                                (change)="kindArticle.checked = chBox1.checked"
+                                                [(ngModel)]="kindArticle.checked"
+                                            />
+                                        </td>
+                                        <td id="name">{{ kindArticle?.name }}</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a class="btn btn-primary edit" (click)="onOpenModal(kindArticle, 'edit')"><i class="bi bi-pencil-square fs-5"></i></a>
+                                                <a class="btn btn-primary delete" (click)="onOpenModal(kindArticle, 'delete')"><i class="bi bi-trash fs-5"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>                            
+                        </div>
+     
+                        <app-pagination (updatePage)="onSetPage($event)"></app-pagination> 
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Modal -->
+    <div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="staticBackdropLabel" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            <form [formGroup]="form" (ngSubmit)="save()">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">{{ titleDialog }}</h5>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>            
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <input 
+                                type="hidden" 
+                                formControlName="id"
+                                id="id" 
+                                class="form-control"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input 
+                                type="text" formControlName="name"
+                                class="form-control" 
+                                id="name" 
+                                placeholder="Name"
+                            />
+                            <div *ngIf="feedbackName != ''" class="form-control-feedback">{{ feedbackName }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="form.invalid" type="submit" class="btn btn-primary" *ngIf="modelMode">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                Register</button>
+            <button [disabled]="form.invalid" type="button" class="btn btn-primary" *ngIf="!modelMode"
+            (click)="updateById()">
+                <i class="bi bi-check-circle-fill me-2" ></i>
+                Save changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                id="edit-form">Close</button>
+            </div>            
+            </form>
+            </div>
+        </div>
+    </div>
+
+    <!--Delete Modal-->
+    <div class="modal fade" id="deleteModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Delete Specialty</h5>
+            <button class="btn-close" type="button" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"></span>
+            </button>
+            </div>
+            <div class="modal-body">
+            <p id="message"></p>
+            </div>
+            <div class="modal-footer">
+            <button class="btn btn-primary" type="button"
+            (click)="kindDelete == 1 ? deleteById(kindArticle.id) : deleteAll()">Yes</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                id="delete-form">No</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</main>
+
+

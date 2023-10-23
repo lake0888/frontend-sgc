@@ -6,14 +6,11 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./filter.component.css']
 })
 export class FilterComponent {
-
-  @Input() title: string;
   @Output() updateFilter = new EventEmitter<string>();
   @Output() updatePageSize = new EventEmitter<number>();
   @Output() updateModal = new EventEmitter<string>();
 
   constructor() {
-    this.title = "";
   }
 
   onFilterChange(filter: string) {

@@ -7,6 +7,10 @@ export class AppConstants {
     public static SPECIALTY_API_URL = `${ AppConstants.API_BASE_URL }specialty`;
     public static FAMILY_API_URL = `${ AppConstants.API_BASE_URL }family`;
     public static SUBFAMILY_API_URL = `${ AppConstants.API_BASE_URL }subfamily`;
+    public static MANUFACTURER_API_URL = `${ AppConstants.API_BASE_URL}manufacturer`;
+    public static KINDARTICLE_API_URL = `${ AppConstants.API_BASE_URL}kind_article`;
+    public static ARTICLE_API_URL = `${ AppConstants.API_BASE_URL}article`;
+
 
     //UTIL
     public static COUNTRY_API_URL = `${ AppConstants.API_BASE_URL }country`;

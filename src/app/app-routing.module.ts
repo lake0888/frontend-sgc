@@ -15,6 +15,9 @@ import { CoinComponent } from './components/util/coin/coin.component';
 import { BankComponent } from './components/bank_module/bank/home/bank.component';
 import { BankPageComponent } from './components/bank_module/bank/page/bank-page.component';
 import { AccountComponent } from './components/bank_module/account/home/account.component';
+import { ManufacturerComponent } from './components/article_module/manufacturer/manufacturer.component';
+import KindArticle from './api/article/kind_article';
+import { KindArticleComponent } from './components/article_module/kind_article/kind-article.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'specialty', pathMatch: 'full' },
@@ -36,7 +39,9 @@ const routes: Routes = [
   { path: 'bank', component: BankComponent, title: 'Home Bank '},
   { path: 'bank/add', component: BankPageComponent, title: 'Bank Page' },
   { path: 'bank/:id/edit', component: BankPageComponent, title: 'Bank Page' },
-  { path: 'account', component: AccountComponent, title: 'Home Bank Account' }
+  { path: 'account', component: AccountComponent, title: 'Home Bank Account' },
+  { path: 'manufacturer', component: ManufacturerComponent, title: 'Home Manufacturer' },
+  { path: 'kind_article', component: KindArticleComponent, title: 'Home Kind Article' }
 ];
 
 @NgModule({

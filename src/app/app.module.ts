@@ -31,6 +31,9 @@ import { CoinComponent } from './components/util/coin/coin.component';
 import { BankComponent } from './components/bank_module/bank/home/bank.component';
 import { BankPageComponent } from './components/bank_module/bank/page/bank-page.component';
 import { AccountComponent } from './components/bank_module/account/home/account.component';
+import { ManufacturerComponent } from './components/article_module/manufacturer/manufacturer.component';
+import { KindArticleComponent } from './components/article_module/kind_article/kind-article.component';
+import { ArticleComponent } from './components/article_module/article/article.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +60,10 @@ import { AccountComponent } from './components/bank_module/account/home/account.
     CoinComponent,
     BankComponent,
     BankPageComponent,
-    AccountComponent
+    AccountComponent,
+    ManufacturerComponent,
+    KindArticleComponent,
+    ArticleComponent
   ],
   imports: [
     BrowserModule,

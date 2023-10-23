@@ -10,9 +10,12 @@
         <li><a class="app-menu__item active" href="dashboard.html"><i class="app-menu__icon bi bi-speedometer"></i><span class="app-menu__label">Dashboard</span></a></li>
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-laptop"></i><span class="app-menu__label">Article</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
           <ul class="treeview-menu">
+            <li><a class="treeview-item" [routerLink]="['article']"><i class="icon bi bi-circle-fill"></i> Article</a></li>
             <li><a class="treeview-item" [routerLink]="['specialty']"><i class="icon bi bi-circle-fill"></i> Specialty</a></li>
             <li><a class="treeview-item" [routerLink]="['family']"><i class="icon bi bi-circle-fill"></i> Family</a></li>
             <li><a class="treeview-item" [routerLink]="['subfamily']"><i class="icon bi bi-circle-fill"></i> Subfamily</a></li>
+            <li><a class="treeview-item" [routerLink]="['manufacturer']"><i class="icon bi bi-circle-fill"></i> Manufacturer</a></li>
+            <li><a class="treeview-item" [routerLink]="['kind_article']"><i class="icon bi bi-circle-fill"></i> Kind Article</a></li>
           </ul>
         </li>
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-laptop"></i><span class="app-menu__label">Importer</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
